@@ -54,94 +54,49 @@ class BD {
         }
     }
     
-    protected static function ejecutaConsulta($sql, $valores) {
-       if (self::$conexion == null) {
-           self::conectar();
-       }
-       $conex = self::$conexion;
-       try{
-           $consulta = $conex->prepare($sql);
-           $consulta->execute($valores);
-       }catch (PDOException $e) {
-           echo 'No se ha podido ejecutar la consulta' . $e->getMessage();
-           return null;
+    /**
+     * 
+     * @return type
+     */
+    static function obtenerCursos()    {
+        $sql = "SELECT * FROM cursos";
+        
+        if (self::$conexion==NULL)  {
+            self::conectar();
         }
-        self::$conexion=NULL;
-       return $consulta;
-    }
-    
-    protected static function ejecutaConsulta2($sql) {
-       if (self::$conexion == null) {
-           self::conectar();
-       }
-       $conex = self::$conexion;
-       try{
-           $consulta = $conex->prepare($sql);
-           $consulta->execute();
-       }catch (PDOException $e) {
-           echo 'No se ha podido ejecutar la consulta' . $e->getMessage();
-           return null;
+        $conex=  self::$conexion;
+        try {
+            $consulta=$conex->prepare($sql);
+            $consulta->execute();
+            
+            self::$conexion=NULL;
+            
+            return $consulta;          
+        } catch (PDOException $err) {
+            $error="Error: ".$err->getMessage();
         }
-        self::$conexion=NULL;
-       return $consulta;
- 
     }
     
-    public static function obtenerProductos() {
- 
-        $sql = "SELECT cod, nombre_corto, nombre, PVP, familia FROM producto;";
-        $resultado = self::ejecutaConsulta2 ($sql);
-        $productos = array();
- 
-	if($resultado) {
-            // A�adimos un elemento por cada producto obtenido
-            while ($row=$resultado->fetch()) {
-                $productos[] = new Producto($row);
-            }
-	}
+    /**
+     * 
+     * @return type
+     */
+    static function obtenerAlumnos()    {
+        $sql = "SELECT * FROM alumnos";
         
-        self::$conexion=NULL;
-        return $productos;
-    }
-    
-    public static function obtieneProducto($codigo) {
- 
-        $valores = array('cod'=>$codigo);
-        $sql = "SELECT cod, nombre_corto, nombre, PVP, familia FROM producto WHERE cod= :cod";
-        
-        $resultado = self::ejecutaConsulta ($sql,$valores);
-        $producto = null;
-	if(isset($resultado)) {
-            $row = $resultado->fetch();
-            $producto = new Producto($row);
-	}
-        self::$conexion=NULL;
-        return $producto;    
-    }
-    
-    public static function obtenerOrdenador($codigo) {
- 
-        $valores = array('cod'=>$codigo);
-        $sql = "SELECT * FROM producto, ordenador WHERE producto.cod= :cod AND ordenador.cod= :cod";
-        
-        $resultado = self::ejecutaConsulta ($sql,$valores);
-	if(isset($resultado)) {
-            $row = $resultado->fetch();
-	}
-        self::$conexion=NULL;
-        return $row;    
-    }
-    
-    public static function productoOrdenador($codigo) {
- 
-        $valores = array('cod'=>$codigo);
-        $sql = "SELECT nombre_corto, descripcion, pvp FROM producto WHERE cod= :cod";
-        
-        $resultado = self::ejecutaConsulta ($sql,$valores);
-        $producto = null;
-	if(isset($resultado)) {
-            $row = $resultado->fetch();
-	}
-        return $row;    
+        if (self::$conexion==NULL)  {
+            self::conectar();
+        }
+        $conex=  self::$conexion;
+        try {
+            $consulta=$conex->prepare($sql);
+            $consulta->execute();
+            
+            self::$conexion=NULL;
+            
+            return $consulta;          
+        } catch (PDOException $err) {
+            $error="Error: ".$err->getMessage();
+        }
     }
 }

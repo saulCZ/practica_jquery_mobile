@@ -1,0 +1,19 @@
+.error p {
+    color: crimson;
+}
+
+#main .ui-header {
+    background: #00D4F0;
+}
+
+#main .ui-footer {
+    background: #00D4F0;
+}
+
+#page2 .ui-header {
+    background: #00D4F0;
+}
+
+#page2 .ui-footer {
+    background: #00D4F0;
+}
