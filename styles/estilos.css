@@ -10,10 +10,22 @@
     background: #00D4F0;
 }
 
-#page2 .ui-header {
+#seleccion .ui-header {
     background: #00D4F0;
 }
 
-#page2 .ui-footer {
+#seleccion .ui-footer {
     background: #00D4F0;
+}
+
+#valoracion .ui-header {
+    background: #00D4F0;
+}
+
+#valoracion .ui-footer {
+    background: #00D4F0;
+}
+
+#valoracion h4 {
+    text-decoration: underline;
 }
