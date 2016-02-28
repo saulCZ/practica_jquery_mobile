@@ -1,6 +1,7 @@
 <?php
 require_once('BD.php');
 
+session_start();
 $error="";
 
 if (isset($_POST['login'])) {
@@ -11,15 +12,19 @@ if (isset($_POST['login'])) {
         $error="Debes introducir un nombre de usuario y una contraseña";
     } else {
         // Comprobamos las credenciales con la base de datos
-        if (BD::obtenerUsuarios($usuario, $pass)) {
+        $consulta=BD::obtenerUsuarios($usuario, $pass);
+        if ($consulta->rowCount()>0) {
+            $fila = $consulta->fetch();
             session_start();
-            $_SESSION['usuario']=$usuario;
+            $_SESSION['cod_prof']=$fila['cod_prof'];
+            $_SESSION['profesor']=$fila['nombre'];
             header("Location: index.php#seleccion");            
         } else {
             $error="Usuario o contraseña no válidos!";
         }
     }
 }
+
 if (isset($_POST['valorar'])) {
     $codAlumno = filter_input(INPUT_POST, 'alumno');
     $codCurso = filter_input(INPUT_POST, 'curso');

@@ -1,6 +1,3 @@
-.error p {
-    color: crimson;
-}
 
 #main .ui-header {
     background: #00D4F0;
@@ -28,4 +25,8 @@
 
 #valoracion h4 {
     text-decoration: underline;
+}
+
+.error p {
+    color: crimson;
 }

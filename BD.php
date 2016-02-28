@@ -6,8 +6,6 @@
  * @author Alumno
  */
 
-//require_once('Producto.php');
-
 class BD {
     private static $conexion;
     
@@ -31,7 +29,6 @@ class BD {
      * @return boolean
      */
     static function obtenerUsuarios($usuario, $password)    {
-        $login=false;
         $valores = array('usuario'=>$usuario, 'password'=>$password);
         $sql = "SELECT * FROM profesores WHERE nombre=:usuario AND password=MD5(:password)";
         
@@ -43,12 +40,9 @@ class BD {
             $consulta=$conex->prepare($sql);
             $consulta->execute($valores);
             
-            if ($consulta->rowCount()>0)    {
-                $login=true;
-            }          
             self::$conexion=NULL;
             
-            return $login;          
+            return $consulta;          
         } catch (PDOException $err) {
             $error="Error: ".$err->getMessage();
         }
@@ -91,6 +85,32 @@ class BD {
         try {
             $consulta=$conex->prepare($sql);
             $consulta->execute();
+            
+            self::$conexion=NULL;
+            
+            return $consulta;          
+        } catch (PDOException $err) {
+            $error="Error: ".$err->getMessage();
+        }
+    }
+    
+    /**
+     * 
+     * @param type $valores
+     * @return type
+     */
+    static function insertarValoracion($valores)    {
+        $sql = "INSERT INTO valoraciones VALUES (:cod_alumno, :cod_curso, :cod_prof, :planteamiento, :contenido, :resultados, :escrita, :redaccion, :organizacion,
+                :introduccion, :desarrollo, :conclusion, :seguridad, :entonacion, :volumen, :velocidad, :vacilacion, :pausas, :muletillas, :duracion, 
+                :indumentaria, :mirada, :facial, :posicion, :tics, :publico, :responder, :nota_final)";
+        
+        if (self::$conexion==NULL)  {
+            self::conectar();
+        }
+        $conex=  self::$conexion;
+        try {
+            $consulta=$conex->prepare($sql);
+            $consulta->execute($valores);
             
             self::$conexion=NULL;
             
