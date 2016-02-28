@@ -62,7 +62,6 @@ if (isset($_POST['valorar'])) {
                             <input type="password" name="password" id="txtpassword" value="" />
                         </div>
                         <input type="submit" name="login" id="login" value="Login" />
-                        <a data-role="button" href="#seleccion">Entrar</a>
                     </form>
                 </div>
             <!--FIN DEL FORMULARIO------------------------------------------------->                
