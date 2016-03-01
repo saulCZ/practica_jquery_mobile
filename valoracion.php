@@ -3,13 +3,12 @@ require_once('BD.php');
 
 session_start();
 
-$codAlumno = filter_input(INPUT_GET, 'codAlumno');
-$codCurso = filter_input(INPUT_GET, 'codCurso');
+$error="";
 
 if (isset($_POST['enviar'])) {
     session_start();
-    $valoracion = array('cod_alumno'=> intval(filter_input(INPUT_POST, 'alumno')),
-        'cod_curso'=> intval(filter_input(INPUT_POST, 'curso')),
+    $valoracion = array('cod_alumno'=> intval($_SESSION['cod_alumno']),
+        'cod_curso'=> intval($_SESSION['cod_curso']),
         //Contenido
         'planteamiento'=> intval(filter_input(INPUT_POST, 'planteamiento')),
         'contenido'=> intval(filter_input(INPUT_POST, 'contenido')),
@@ -51,7 +50,11 @@ if (isset($_POST['enviar'])) {
     $valoracion['nota_final']=$notaFinal;
     $valoracion['cod_prof']=intval($_SESSION['cod_prof']);
     
-    BD::insertarValoracion($valoracion);
+    if (BD::insertarValoracion($valoracion))   {
+        header("Location: nota.php");
+    } else {
+        $error="Error al insertar los datos. Revise que todos los datos son correctos";
+    }    
 }
 ?>
 
@@ -66,7 +69,6 @@ if (isset($_POST['enviar'])) {
         <link rel="stylesheet" href="styles/estilos.css" />
     </head>
     <body>
-     
         <div data-role="page" id="valoracion">
             <div data-role="header">
                 <h1>Valoraciones del proyecto del alumno </h1>
@@ -75,9 +77,8 @@ if (isset($_POST['enviar'])) {
             <div data-role="content">
                 <div data-role="content" class="ui-content">
                     <h2>Valoracion del alumno</h2>
-                    <form action="valoracion.php" method="post">
-                        <input type="hidden" name="alumno" value="<?php echo $codAlumno; ?>" />
-                        <input type="hidden" name="curso" value="<?php echo $codCurso; ?>" />
+                    <div data-role="fieldcontain" class="error"><p><?php echo $error; ?></p></div>
+                    <form action="valoracion.php" method="post" data-ajax="false">
                         <fieldset class="ui-field-contain">
                             <h3>Contenido del proyecto</h3>
                             <fieldset data-role="controlgroup" data-type="horizontal">

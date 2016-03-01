@@ -27,6 +27,13 @@
     text-decoration: underline;
 }
 
+#datos .ui-header {
+    background: #00D4F0;
+}
+
+#datos .ui-footer {
+    background: #00D4F0;
+}
 .error p {
     color: crimson;
 }

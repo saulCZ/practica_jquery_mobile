@@ -26,9 +26,10 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['valorar'])) {
-    $codAlumno = filter_input(INPUT_POST, 'alumno');
-    $codCurso = filter_input(INPUT_POST, 'curso');
-    header("Location: valoracion.php?codAlumno=$codAlumno&codCurso=$codCurso");
+    session_start();
+    $_SESSION['cod_alumno']=filter_input(INPUT_POST, 'alumno');
+    $_SESSION['cod_curso']=filter_input(INPUT_POST, 'curso');
+    header("Location: valoracion.php");
 }
 ?>
 <!DOCTYPE html>
@@ -88,7 +89,7 @@ if (isset($_POST['valorar'])) {
                             <?php
                             $alumnos=  BD::obtenerAlumnos();
                             while ($fila = $alumnos->fetch()) {
-                                echo "<option value=\"".$fila['cod_alumno']."\">".$fila['nombre']."</option>
+                                echo "<option value=\"".$fila['cod_alumno']."\">".$fila['alumno']."</option>
                                 ";}
                             ?>
                             </select>

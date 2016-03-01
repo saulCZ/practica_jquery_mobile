@@ -100,9 +100,11 @@ class BD {
      * @return type
      */
     static function insertarValoracion($valores)    {
-        $sql = "INSERT INTO valoraciones VALUES (:cod_alumno, :cod_curso, :cod_prof, :planteamiento, :contenido, :resultados, :escrita, :redaccion, :organizacion,
-                :introduccion, :desarrollo, :conclusion, :seguridad, :entonacion, :volumen, :velocidad, :vacilacion, :pausas, :muletillas, :duracion, 
-                :indumentaria, :mirada, :facial, :posicion, :tics, :publico, :responder, :nota_final)";
+        $insercion=false;
+        
+        $sql = "INSERT INTO valoraciones VALUES (:cod_alumno, :cod_curso, :cod_prof, :planteamiento, :contenido, :resultados, :escrita, "
+                . ":redaccion, :organizacion, :introduccion, :desarrollo, :conclusion, :seguridad, :entonacion, :volumen, :velocidad, :vacilacion, "
+                . ":pausas, :muletillas, :duracion, :indumentaria, :mirada, :facial, :posicion, :tics, :publico, :responder, :nota_final)";
         
         if (self::$conexion==NULL)  {
             self::conectar();
@@ -112,6 +114,37 @@ class BD {
             $consulta=$conex->prepare($sql);
             $consulta->execute($valores);
             
+            if ($consulta->rowCount()>0)    {
+                $insercion=true;
+            }
+            
+            self::$conexion=NULL;
+            
+            return $insercion;          
+        } catch (PDOException $err) {
+            $error="Error: ".$err->getMessage();
+        }
+    }
+    
+    /**
+     * 
+     * @param type $cod_alumno
+     * @param type $cod_prof
+     * @return type
+     */
+    static function alumnoNotas($cod_alumno, $cod_prof)    {
+        $valores = array('cod_alumno'=>$cod_alumno, 'cod_prof'=>$cod_prof);
+        $sql = "SELECT alumno, nota_final, nombre FROM alumnos, valoraciones, profesores "
+                . "WHERE alumnos.cod_alumno=:cod_alumno AND valoraciones.cod_alumno=:cod_alumno AND profesores.cod_prof=:cod_prof";
+        
+        if (self::$conexion==NULL)  {
+            self::conectar();
+        }
+        $conex=  self::$conexion;
+        try {
+            $consulta=$conex->prepare($sql);
+            $consulta->execute($valores);
+             
             self::$conexion=NULL;
             
             return $consulta;          
@@ -119,4 +152,5 @@ class BD {
             $error="Error: ".$err->getMessage();
         }
     }
+    
 }

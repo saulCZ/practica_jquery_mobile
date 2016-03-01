@@ -10,7 +10,7 @@ USE `jquerymobile`;
 
 CREATE TABLE IF NOT EXISTS `alumnos` (
   `cod_alumno` int(11) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `alumno` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `curso` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `alumnos` (
 -- Volcado de datos para la tabla `alumnos`
 --
 
-INSERT INTO `alumnos` (`cod_alumno`, `nombre`, `curso`) VALUES
+INSERT INTO `alumnos` (`cod_alumno`, `alumno`, `curso`) VALUES
 (1, 'Alumno 1', 1),
 (2, 'Alumno 2', 3),
 (3, 'Alumno 3', 1),
